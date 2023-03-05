@@ -1,0 +1,94 @@
+<!-- Menu -->
+
+<aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+    <div class="app-brand demo">
+        <a href="/" class="app-brand-link">
+        <span class="app-brand-logo demo">
+
+        </span>
+            <span class="app-brand-text demo menu-text fw-bolder ms-2 text-uppercase">{{ site_title }}</span>
+        </a>
+
+        <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
+            <i class="bx bx-chevron-left bx-sm align-middle"></i>
+        </a>
+    </div>
+
+    <div class="menu-inner-shadow"></div>
+
+    <ul class="menu-inner py-1">
+        <!-- Dashboard -->
+        <li class="menu-item {% if request.resolver_match.view_name == 'dashboard' %}active{% endif %}">
+            <a href="/" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                <div data-i18n="Analytics">Dashboard</div>
+            </a>
+        </li>
+
+        <!-- Layouts -->
+
+        <!-- Match -->
+        <li class="menu-item {% if request.resolver_match.app_name == 'match' %}active open{% endif %}">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-task"></i>
+                <div data-i18n="Layouts">Matches</div>
+            </a>
+
+            <ul class="menu-sub">
+                <li class="menu-item {% if request.resolver_match.view_name == 'match:list' %}active{% endif %}">
+                    <a href="{% url 'match:list' %}" class="menu-link">
+                        <div data-i18n="Without menu">All Matches</div>
+                    </a>
+                </li>
+                <li class="menu-item {% if request.resolver_match.view_name == 'match:create' %}active{% endif %}">
+                    <a href="{% url 'match:create' %}" class="menu-link">
+                        <div data-i18n="Without menu">New Match</div>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <!-- Team -->
+        <li class="menu-item {% if request.resolver_match.app_name == 'team' %}active open{% endif %}">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-group"></i>
+                <div data-i18n="Layouts">Teams</div>
+            </a>
+
+            <ul class="menu-sub">
+                <li class="menu-item {% if request.resolver_match.view_name == 'team:list' %}active{% endif %}">
+                    <a href="{% url 'team:list' %}" class="menu-link">
+                        <div data-i18n="Without menu">All Teams</div>
+                    </a>
+                </li>
+                <li class="menu-item {% if request.resolver_match.view_name == 'team:create' %}active{% endif %}">
+                    <a href="{% url 'team:create' %}" class="menu-link">
+                        <div data-i18n="Without menu">New Team</div>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <!-- Player -->
+        <li class="menu-item {% if request.resolver_match.app_name == 'player' %}active open{% endif %}">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-user"></i>
+                <div data-i18n="Layouts">Players</div>
+            </a>
+
+            <ul class="menu-sub">
+                <li class="menu-item {% if request.resolver_match.view_name == 'player:list' %}active{% endif %}">
+                    <a href="{% url 'player:list' %}" class="menu-link">
+                        <div data-i18n="Without menu">All Players</div>
+                    </a>
+                </li>
+                <li class="menu-item {% if request.resolver_match.view_name == 'player:create' %}active{% endif %}">
+                    <a href="{% url 'player:create' %}" class="menu-link">
+                        <div data-i18n="Without menu">New Player</div>
+                    </a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</aside>
+<!-- / Menu -->

@@ -1,0 +1,137 @@
+{% extends 'base/base.html' %}
+{% load widget_tweaks %}
+
+{% block title %}{{ object }} |{% endblock title %}
+{% block content %}
+    <div class="card mb-4">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">{{ object|title }}</h5>
+            <p class="ms-auto card-subtitle text-muted">{{ object.created }}
+                {% if object.modified != object.updated_on %} (Updated on: {{ object.modified }}){% endif %}</p>
+            <a class="my-auto text-decoration-none pe-3 ps-3" href="{% url 'team:update' object.slug %}"><i
+                    class="bx bx-edit-alt"></i></a>
+            <a class="mx-1 my-auto text-decoration-none" href="{% url 'team:delete' object.slug %}"><i
+                    class="bx bx-trash"></i></a>
+        </div>
+        <div class="card-body">
+            <p class="text-uppercase">{{ object.toss_win |title }} won the toss and elected
+                to {{ object.get_elected_display }} first.</p>
+
+            <div class="nav-align-top mb-4">
+                <ul class="nav nav-tabs nav-fill" role="tablist">
+                    <li class="nav-item">
+                        <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab"
+                                data-bs-target="#navs-justified-r1" aria-controls="navs-justified-r1"
+                                aria-selected="true">{{ object.get_first_round }}
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
+                                data-bs-target="#navs-justified-r2" aria-controls="navs-justified-r2"
+                                aria-selected="false">{{ object.get_second_round }}
+                        </button>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane fade active show" id="navs-justified-r1" role="tabpanel">
+
+                        {% if object.remaining_balls_first or object.get_first_round.wicket_count >= 10 %}
+
+                            <form action="{% url 'over:create' %}" method="POST" class="mb-4">{% csrf_token %}
+                                <div class="row justify-content-start">
+                                    <div class="col-auto">New Over <span class="ms-3">Baller</span></div>
+                                    <div class="col">{{ form_over_1.baller|add_class:'form-select w-25' }}</div>
+                                    <input type="hidden" value="{{ object.get_first_round.id }}" id="round"
+                                           name="round">
+                                    <div class="col-auto">
+                                        <button type="submit" class="btn btn-primary"> +</button>
+                                    </div>
+                                </div>
+                            </form>
+
+                            <hr/>
+
+                            <form action="{% url 'over:b_create' %}" method="POST">{% csrf_token %}
+                                <div class="row justify-content-start">
+                                    <div class="col-auto">New Ball <span class="ms-3">Batsman</span></div>
+                                    <div class="col">{{ form_ball_1.batsman|add_class:'form-select' }}</div>
+                                    <div class="col-auto">Score</div>
+                                    <div class="col">{{ form_ball_1.score|add_class:'form-select' }}</div>
+                                    <div class="col-auto">Ball Type</div>
+                                    <div class="col">{{ form_ball_1.ball|add_class:'form-select' }}</div>
+                                    <div class="col-auto">Wicket</div>
+                                    <div class="col">{{ form_ball_1.wicket|add_class:'form-contorl' }}</div>
+                                    <input type="hidden" value="{{ object.get_first_round.current_over.id }}" id="over"
+                                           name="over">
+                                    <div class="col-auto">
+                                        <button type="submit" class="btn btn-primary"> +</button>
+                                    </div>
+                                </div>
+                            </form>
+
+                            <hr/>
+                        {% endif %}
+
+                        <p>Total runs: {{ object.get_first_round.total_runs }}</p>
+                        <p>Wickets: {{ object.get_first_round.wicket_count }}</p>
+                        <p>Overs: {{ object.get_first_round.overs_for_card }}</p>
+                        <p>Run rate: {{ object.get_first_round.run_rate }}</p>
+                        <p>Remaining Balls: {{ object.remaining_balls_first }}</p>
+                        <p>Extras: {{ object.get_first_round.extras }}</p>
+                    </div>
+                    <div class="tab-pane fade" id="navs-justified-r2" role="tabpanel">
+
+                        {% if object.remaining_balls_second or object.get_second_round.wicket_count >= 10 or not object.remaining_score %}
+
+                            <form action="{% url 'over:create' %}" method="POST" class="form-inline">{% csrf_token %}
+                                <div class="row justify-content-start">
+                                    <div class="col-auto">New Over <span class="ms-3">Baller</span></div>
+                                    <div class="col">{{ form_over_2.baller|add_class:'form-select w-25' }}</div>
+                                    <input type="hidden" value="{{ object.get_second_round.id }}" id="round"
+                                           name="round">
+                                    <div class="col-auto">
+                                        <button type="submit" class="btn btn-primary"> +</button>
+                                    </div>
+                                </div>
+                            </form>
+
+                            <hr/>
+
+                            <form action="{% url 'over:b_create' %}" method="POST">{% csrf_token %}
+                                <div class="row justify-content-start">
+                                    <div class="col-auto">New Ball <span class="ms-3">Batsman</span></div>
+                                    <div class="col">{{ form_ball_2.batsman|add_class:'form-select' }}</div>
+                                    <div class="col-auto">Score</div>
+                                    <div class="col">{{ form_ball_2.score|add_class:'form-select' }}</div>
+                                    <div class="col-auto">Ball Type</div>
+                                    <div class="col">{{ form_ball_2.ball|add_class:'form-select' }}</div>
+                                    <div class="col-auto">Wicket</div>
+                                    <div class="col">{{ form_ball_2.wicket|add_class:'form-contorl' }}</div>
+                                    <input type="hidden" value="{{ object.get_second_round.current_over.id }}" id="over"
+                                           name="over">
+                                    <div class="col-auto">
+                                        <button type="submit" class="btn btn-primary"> +</button>
+                                    </div>
+                                </div>
+                            </form>
+
+                            <hr/>
+
+                        {% endif %}
+
+                        <p>Total runs: {{ object.get_second_round.total_runs }}</p>
+                        <p>Wickets: {{ object.get_second_round.wicket_count }}</p>
+                        <p>Overs: {{ object.get_second_round.overs_for_card }}</p>
+                        <p>Run rate: {{ object.get_second_round.run_rate }}</p>
+                        <p>Remaining Balls: {{ object.remaining_balls_second }}</p>
+                        <p>Remaining Score: {{ object.remaining_score }}</p>
+                        <p>Required run rate: {{ object.required_run_rate }}</p>
+                        <p>Extras: {{ object.get_second_round.extras }}</p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}

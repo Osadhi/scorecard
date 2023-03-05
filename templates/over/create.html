@@ -1,0 +1,36 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %}New Over |{% endblock %}
+
+{% block content %}
+    <div class="card mb-4">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">New Over</h5>
+        </div>
+        <div class="card-body">
+            <form action="{% url 'over:create' %}" method="POST">{% csrf_token %}
+                {% for hidden in form.hidden_fields %}
+                    {{ hidden }}
+                {% endfor %}
+                {% for field in form.visible_fields %}
+                    <div class="mb-3">
+                        <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        {{ field|add_class:'form-control' }}
+                        {% for error in field.errors %}
+                            <span class="help-block">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+                <input type="hidden" value="1" id="round" name="round">
+                <button type="submit" class="btn btn-primary">Create</button>
+                {#            TODO: finish cancel#}
+                <a href="" class="btn btn-secondary">Cancel</a>
+            </form>
+        </div>
+    </div>
+{% endblock content %}
+
+
+

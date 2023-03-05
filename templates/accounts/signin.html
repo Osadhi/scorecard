@@ -1,0 +1,67 @@
+{% extends 'base/blank.html' %}
+{% load static %}
+{% block title %}Sign in |{% endblock %}
+
+
+{% block c_head %}
+    <!-- Page -->
+    <link rel="stylesheet" href="{% static 'assets/vendor/css/pages/page-auth.css' %}"/>
+{% endblock c_head %}
+
+{% block content %}
+    <div class="authentication-wrapper authentication-basic container-p-y">
+        <div class="authentication-inner">
+            <div class="card">
+                <div class="card-body">
+                    <!-- Logo -->
+                    <div class="app-brand justify-content-center">
+                        <a href="/" class="app-brand-link gap-2">
+                          <span class="app-brand-logo demo">
+
+                          </span>
+                            <span class="app-brand-text demo text-body fw-bolder">{{ site_title }}</span>
+                        </a>
+                    </div>
+                    <!-- /Logo -->
+                    <!-- Login -->
+                    <h4 class="mb-2">Welcome to {{ site_title }}! 👋</h4>
+                    <p class="mb-4">Please sign-in to your account and start the adventure</p>
+
+                    <form id="formAuthentication" class="mb-3" action="{% url 'signin' %}"
+                          method="POST"> {% csrf_token %}
+                        {% for error in form.non_field_errors %}
+                            <span class="help-block text-danger">{{ error }}</span>
+                        {% endfor %}
+                        <div class="mb-3 mt-3">
+                            <label for="username" class="form-label">Username</label>
+                            <input type="text" class="form-control" id="username" name="username"
+                                   placeholder="Enter your username" autofocus/>
+                            {% for error in form.username.errors %}
+                                <span class="help-block">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        <div class="mb-3 form-password-toggle">
+                            <div class="d-flex justify-content-between">
+                                <label class="form-label" for="password">Password</label>
+                            </div>
+                            <div class="input-group input-group-merge">
+                                <input type="password" id="password" class="form-control" name="password"
+                                       placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                                       aria-describedby="password"/>
+                                <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                            </div>
+                            {% for error in form.password.errors %}
+                                <span class="help-block">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        <div class="mb-3">
+                            <button class="btn btn-primary d-grid w-100" type="submit">Sign in</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- /Login -->
+        </div>
+    </div>
+    </div>
+{% endblock content %}

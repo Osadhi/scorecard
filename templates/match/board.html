@@ -1,0 +1,212 @@
+{% extends 'base/blank.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block title %}{{ object }} |{% endblock %}
+
+{% block content %}
+    <div class="card mb-4">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h1 class="mb-0 fs-2">{{ object.name|title|upper }}</h1>
+            <p class="ms-auto card-subtitle text-muted">{{ object.created }}
+                {% if object.modified != object.updated_on %} (Updated on: {{ object.modified }}){% endif %}</p>
+        </div>
+        <div class="card-body">
+            {#            Top Score area #}
+            <div class="d-flex justify-content-around">
+                <div class="">
+                    <div>
+                        <div class="d-flex flex-row">
+                            <div class="d-flex flex-column">
+                                <img class="rounded " src="{{ object.first_batting.logo.url }}" alt="Card image"
+                                     style="max-width:150px;max-height:150px;">
+                            </div>
+                            <div class="d-flex flex-column mx-3 my-auto">
+                                <span class="fs-4">{{ object.team_1.total }}/{{ object.team_1.wickets }}</span>
+                                <span class="text-muted fs-5">{{ object.team_1.overs }}</span>
+                            </div>
+                        </div>
+                        <div class="flex-row mt-2"><span
+                                class="text-uppercase fs-6">{{ object.first_batting.name }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="">
+                    <div>
+                        <div class="d-flex flex-row-reverse">
+                            <div class="d-flex flex-column">
+                                <img class="rounded" src="{{ object.first_balling.logo.url }}"
+                                     alt="Card image" style="max-width:150px;max-height:150px;">
+                            </div>
+                            <div class="d-flex flex-column mx-3 my-auto">
+                                {% if object.team_2.overs %}
+                                    <span class="fs-4">{{ object.team_2.total }}/{{ object.team_2.wickets }}</span>
+                                    <span class="text-muted fs-5">{{ object.team_2.overs }}</span>
+                                {% else %}
+                                    <span class="text-muted fs-5">Yet to bat</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="flex-row mt-2"><span
+                                class="text-uppercase fs-6 float-end">{{ object.first_balling.name }}</span></div>
+                    </div>
+                </div>
+            </div>
+            {#            won by text #}
+            <div class="d-flex justify-content-center">
+                <div class="d-flex flex-column mx-3 my-auto text-uppercase">
+                    {% if object.won %}
+                        <span class="fs-5">{{ object.won }} Won </span>
+                    {% else %}
+                        {% if object.get_second_round.normal_ball_count %}
+                            <span class="fs-5">{{ object.team_2.team.name }} need {{ object.team_2.remaining_score }} from {{ object.team_2.remaining_balls }} balls</span>
+                            <span class="fs-5">CRR: {{ object.team_2.run_rate }} RRR: {{ object.team_2.required_run_rate }}</span>
+                        {% else %}
+                            <span class="fs-5">CRR: {{ object.team_1.run_rate }}</span>
+                        {% endif %}
+                    {% endif %}
+                    <span class="fs-7 text-muted flex-row">{{ object.toss_win |title }} won the toss and elected
+                to {{ object.get_elected_display }} first.</span>
+                </div>
+            </div>
+            {#            Tabs #}
+            <div class="nav-align-top mt-4 mb-4">
+                <ul class="nav nav-tabs nav-fill" role="tablist">
+                    <li class="nav-item">
+                        <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab"
+                                data-bs-target="#navs-justified-r1" aria-controls="navs-justified-r1"
+                                aria-selected="true">{{ object.get_first_round }}
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
+                                data-bs-target="#navs-justified-r2" aria-controls="navs-justified-r2"
+                                aria-selected="false">{{ object.get_second_round }}
+                        </button>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane fade active show" id="navs-justified-r1" role="tabpanel">
+
+                        <h6 class="text-uppercase mt-4">Batting</h6>
+
+                        <div class="table-responsive text-nowrap">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>Batting</th>
+                                    <th>Runs</th>
+                                    <th>Balls</th>
+                                </tr>
+                                </thead>
+                                <tbody class="table-border-bottom-0">
+                                {% for player in object.batting_1 %}
+                                    <tr>
+                                        <td>{{ player.player.name }}</td>
+                                        <td>{{ player.runs }}</td>
+                                        <td>{{ player.balls }}</td>
+                                    </tr>
+                                {% endfor %}
+                                <tr>
+                                    <th>Extras</th>
+                                    <th>{{ object.team_1.extras }}</th>
+                                </tr>
+                                <tr>
+                                    <th>Total runs</th>
+                                    <th>{{ object.team_1.total }}</th>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <hr/>
+
+                        <h6 class="text-uppercase mt-4">Bowling</h6>
+
+                        <div class="table-responsive text-nowrap">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>Bowling</th>
+                                    <th>Overs</th>
+                                    <th>Runs</th>
+                                    <th>Wickets</th>
+                                </tr>
+                                </thead>
+                                <tbody class="table-border-bottom-0">
+                                {% for player in object.balling_1 %}
+                                    <tr>
+                                        <td>{{ player.player.name }}</td>
+                                        <td>{{ player.overs }}</td>
+                                        <td>{{ player.runs }}</td>
+                                        <td>{{ player.wickets }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="navs-justified-r2" role="tabpanel">
+
+
+                        <h6 class="text-uppercase mt-4">Batting</h6>
+
+                        <div class="table-responsive text-nowrap">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>Batting</th>
+                                    <th>Runs</th>
+                                    <th>Balls</th>
+                                </tr>
+                                </thead>
+                                <tbody class="table-border-bottom-0">
+                                {% for player in object.batting_2 %}
+                                    <tr>
+                                        <td>{{ player.player.name }}</td>
+                                        <td>{{ player.runs }}</td>
+                                        <td>{{ player.balls }}</td>
+                                    </tr>
+                                {% endfor %}
+                                <tr>
+                                    <th>Extras</th>
+                                    <th>{{ object.team_2.extras }}</th>
+                                </tr>
+                                <tr>
+                                    <th>Total runs</th>
+                                    <th>{{ object.team_2.total }}</th>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <hr/>
+                        <h6 class="text-uppercase mt-4">Bowling</h6>
+
+                        <div class="table-responsive text-nowrap">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>Bowling</th>
+                                    <th>Overs</th>
+                                    <th>Runs</th>
+                                    <th>Wickets</th>
+                                </tr>
+                                </thead>
+                                <tbody class="table-border-bottom-0">
+                                {% for player in object.balling_1 %}
+                                    <tr>
+                                        <td>{{ player.player.name }}</td>
+                                        <td>{{ player.overs }}</td>
+                                        <td>{{ player.runs }}</td>
+                                        <td>{{ player.wickets }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

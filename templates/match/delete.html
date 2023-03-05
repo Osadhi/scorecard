@@ -1,0 +1,19 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Delete {{ object }} |{% endblock %}
+
+{% block content %}
+    <div class="card mb-4">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">Delete "{{ object }}" Match</h5>
+        </div>
+        <div class="card-body">
+            <form action="{% url 'match:delete' object.slug %}" method="POST">{% csrf_token %}
+                <p class="card-text">Are you sure you want to delete "{{ object }}"?</p>
+                <button type="submit" class="btn btn-danger">Yes, Delete</button>
+                <a href="{% url 'match:list' %}" class="btn btn-secondary">Cancel</a>
+            </form>
+        </div>
+    </div>
+{% endblock content %}

@@ -1,0 +1,189 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block title %}Index |{% endblock %}
+
+{% block content %}
+    <div class="card mb-4">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">Match title</h5>
+        </div>
+        <div class="card-body">
+            {#            Top Score area #}
+            <div class="d-flex justify-content-around">
+                <div class="">
+                    <div>
+                        <div class="d-flex flex-row">
+                            <div class="d-flex flex-column">
+                                <img class="rounded " src="/static/assets/img/elements/12.jpg" alt="Card image"
+                                     style="max-width:150px;max-height:150px;">
+                            </div>
+                            <div class="d-flex flex-column mx-3 my-auto">
+                                <span class="fs-4">Score/Wickets</span>
+                                <span class="text-muted fs-5">Overs</span>
+                            </div>
+                        </div>
+                        <div class="flex-row"><span class="text-uppercase fs-6">team 1</span></div>
+                    </div>
+                </div>
+                <div class="">
+                    <div>
+                        <div class="d-flex flex-row-reverse">
+                            <div class="d-flex flex-column">
+                                <img class="rounded img-responsive" src="/static/assets/img/elements/13.jpg"
+                                     alt="Card image"
+                                     width="150px"
+                                     height="150px">
+                            </div>
+                            <div class="d-flex flex-column mx-3 my-auto">
+                                <span class="fs-4">Score/Wickets</span>
+                                <span class="text-muted fs-5">Overs</span>
+                            </div>
+                        </div>
+                        <div class="flex-row"><span class="text-uppercase fs-6 float-end">team 1</span></div>
+                    </div>
+                </div>
+            </div>
+            {#            won by text #}
+            <div class="d-flex justify-content-center">
+                <div class="d-flex flex-column mx-3 my-auto text-uppercase">
+                    <span class="fs-5">Won by</span>
+                    <span class="fs-5">To win score from balls</span>
+                    <span class="fs-5">CRR: RRR: </span>
+                    <span class="fs-6 text-muted flex-row">toss won </span>
+                </div>
+            </div>
+            {#            Tabs #}
+            <div class="nav-align-top mb-4">
+                <ul class="nav nav-tabs nav-fill" role="tablist">
+                    <li class="nav-item">
+                        <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab"
+                                data-bs-target="#navs-justified-r1" aria-controls="navs-justified-r1"
+                                aria-selected="true">{{ object.get_first_round }}
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
+                                data-bs-target="#navs-justified-r2" aria-controls="navs-justified-r2"
+                                aria-selected="false">{{ object.get_second_round }}
+                        </button>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane fade active show" id="navs-justified-r1" role="tabpanel">
+
+                        <h6 class="text-uppercase mt-4">Batting</h6>
+
+                        <div class="table-responsive text-nowrap">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>Batting</th>
+                                    <th>Runs</th>
+                                    <th>Balls</th>
+                                </tr>
+                                </thead>
+                                <tbody class="table-border-bottom-0">
+                                {% for rows in object.get_first_round.batting_data %}
+                                    <tr>
+                                        {% for col in rows %}
+                                            <td>{{ col }}</td>
+                                        {% endfor %}
+                                    </tr>
+                                {% endfor %}
+                                <tr>
+                                    <th>Extras</th>
+                                    <th>10</th>
+                                </tr>
+                                <tr>
+                                    <th>Total runs</th>
+                                    <th>100</th>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <hr/>
+
+                    <h6 class="text-uppercase mt-4">Bowling</h6>
+
+                    <div class="table-responsive text-nowrap">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>Bowling</th>
+                                <th>Overs</th>
+                                <th>Runs</th>
+                                <th>Wickets</th>
+                            </tr>
+                            </thead>
+                            <tbody class="table-border-bottom-0">
+                            {% for rows in object.get_first_round.balling_data %}
+                                <tr>
+                                    {% for col in rows %}
+                                        <td>{{ col }}</td>
+                                    {% endfor %}
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+
+                    <div class="tab-pane fade" id="navs-justified-r2" role="tabpanel">
+
+                        <h6 class="text-uppercase mt-4">Bowling</h6>
+
+                        <div class="table-responsive text-nowrap">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>Bowling</th>
+                                    <th>Overs</th>
+                                    <th>Runs</th>
+                                    <th>Wickets</th>
+                                </tr>
+                                </thead>
+                                <tbody class="table-border-bottom-0">
+                                {% for rows in object.get_first_round.balling_data %}
+                                    <tr>
+                                        {% for col in rows %}
+                                            <td>{{ col }}</td>
+                                        {% endfor %}
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <hr/>
+
+                        <h6 class="text-uppercase mt-4">Batting</h6>
+
+                        <div class="table-responsive text-nowrap">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>Batting</th>
+                                    <th>Runs</th>
+                                    <th>Balls</th>
+                                </tr>
+                                </thead>
+                                <tbody class="table-border-bottom-0">
+                                {% for rows in object.get_first_round.batting_data %}
+                                    <tr>
+                                        {% for col in rows %}
+                                            <td>{{ col }}</td>
+                                        {% endfor %}
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
