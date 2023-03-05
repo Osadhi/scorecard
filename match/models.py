@@ -8,7 +8,7 @@ from scorecard.utils import unique_slug_gen
 from team.models import Team
 
 BALLS_PER_OVER = 4
-TOTAL_BALLS = 4 * 5
+TOTAL_BALLS = BALLS_PER_OVER * 5
 
 
 class Match(models.Model):

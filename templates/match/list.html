@@ -1,5 +1,6 @@
 {% extends 'base/base.html' %}
 {% load static %}
+{% load tz %}
 {% block title %}Matches |{% endblock title %}
 
 
@@ -17,7 +18,7 @@
               <h4>{{ obj |title }}</h4>
               <small class="d-block text-muted">
                 <i class="bx bx-calendar me-2 bi"></i>
-                {{ obj.created }} {% if obj.modified != obj.updated_on %} (Modified on: {{ obj.modified }}){% endif %}
+                {{ obj.created|timezone:"Asia/Colombo" }} {% if obj.modified != obj.modified %} (Modified on: {{ obj.modified|timezone:"Asia/Colombo" }}){% endif %}
               </small></a>
           </span>
                         <a class="ms-auto my-auto text-decoration-none" href="{% url 'match:update' obj.slug %}"><i

@@ -1,32 +1,84 @@
 {% extends 'base/blank.html' %}
 {% load static %}
+{% load tz %}
 {% block title %}Matches |{% endblock title %}
 
 
 {% block content %}
-    <div class="card mb-4">
-        <div class="card-header d-flex justify-content-between align-items-center">
-            <h5 class="mb-0">All Matches</h5>
-        </div>
-        <div class="card-body">
-            <div class="list-group list-group-flush w-auto">
-                {% for obj in object_list %}
-                    <label class="list-group-item d-flex gap-3">
-          <span class="pt-1 form-checked-content ms-2">
-            <a href="{% url 'match:scoreboard' obj.slug %}" class="text-decoration-none text-black">
-              <h4>{{ obj |title }}</h4>
-              <small class="d-block text-muted">
-                <i class="bx bx-calendar me-2 bi"></i>
-                {{ obj.created }} {% if obj.modified != obj.updated_on %} (Modified on: {{ obj.modified }}){% endif %}
-              </small></a>
-          </span>
-                    </label>
-                {% endfor %}
-            </div>
-        </div>
+    <h4 class="fw-bold py-3 mb-4">
+        <span class="text-muted fw-light">All </span>Matches
+    </h4>
+
+    <div class="row">
+        {% for obj in object_list %}
+            {% if forloop.counter|divisibleby:2 %}
+                <div class="col-md">
+
+                    <a href="{% url 'match:scoreboard' obj.slug %}" class="text-decoration-none text-black">
+                        <div class="card mb-3">
+                            <div class="row g-0">
+                                <div class="col-auto">
+                                    <img class="card-img card-img-left" src="{{ obj.first_batting.logo.url }}"
+                                         alt="{{ object.first_batting.name }}"
+                                         style="max-width:150px;max-height:150px;">
+                                </div>
+                                <div class="col">
+                                    <div class="card-body">
+                                        <h5 class="card-title  text-center">{{ obj |title }}</h5>
+                                        <p class="card-text"><small class="text-muted">Last updated
+                                            on: {{ obj.modified|timezone:"Asia/Colombo" }}</small>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <img class="card-img card-img-left" src="{{ obj.first_balling.logo.url }}"
+                                         alt="{{ object.first_balling.name }}"
+                                         style="max-width:150px;max-height:150px;">
+                                </div>
+                            </div>
+                        </div>
+                    </a>>
+
+                </div>
+                </div>
+                {% if not forloop.last %}
+                    <div class="row">
+                {% endif %}
+            {% else %}
+                <div class="col-md">
+
+                    <a href="{% url 'match:scoreboard' obj.slug %}" class="text-decoration-none text-black">
+                        <div class="card mb-3">
+                            <div class="row g-0">
+                                <div class="col-auto">
+                                    <img class="card-img card-img-left" src="{{ obj.first_batting.logo.url }}"
+                                         alt="{{ object.first_batting.name }}"
+                                         style="max-width:150px;max-height:150px;">
+                                </div>
+                                <div class="col">
+                                    <div class="card-body">
+                                        <h5 class="card-title  text-center">{{ obj |title }}</h5>
+                                        <p class="card-text"><small class="text-muted">Last updated
+                                            on: {{ obj.modified|timezone:"Asia/Colombo" }}</small>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <img class="card-img card-img-left" src="{{ obj.first_balling.logo.url }}"
+                                         alt="{{ object.first_balling.name }}"
+                                         style="max-width:150px;max-height:150px;">
+                                </div>
+                            </div>
+                        </div>
+                    </a>
 
 
+                </div>
+            {% endif %}
+        {% endfor %}
+        </div>
     </div>
+
     </div>
 
 

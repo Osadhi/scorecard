@@ -18,6 +18,7 @@ class TeamStat(models.Model):
     extras = models.IntegerField(_('extras'), null=True, blank=True)
     remaining_balls = models.IntegerField(_('remaining balls'), null=True, blank=True)
     remaining_score = models.IntegerField(_('remaining score'), null=True, blank=True)
+    custom_comment = models.TextField(_('custom comment'), blank=True, null=True)
 
     def __str__(self):
         return self.match.name + ' ' + self.team.name
