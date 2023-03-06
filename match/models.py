@@ -7,9 +7,6 @@ from django.utils.translation import gettext_lazy as _
 from scorecard.utils import unique_slug_gen
 from team.models import Team
 
-BALLS_PER_OVER = 4
-TOTAL_BALLS = BALLS_PER_OVER * 5
-
 
 class Match(models.Model):
     class Choose(models.TextChoices):
@@ -25,6 +22,9 @@ class Match(models.Model):
     toss_win = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='toss_win_set')
     elected = models.CharField(_('elected'), choices=Choose.choices, default=Choose.FIELD, max_length=1)
     won = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='won_set', blank=True, null=True)
+    overs = models.IntegerField(_('overs'), default=5)
+    ball_per_over = models.IntegerField(_('balls per over'), default=4)
+    custom_comment = models.TextField(_('custom comment'), blank=True, null=True)
 
     def __str__(self):
         return self.name
@@ -50,14 +50,14 @@ class Match(models.Model):
         return 0
 
     def remaining_balls_first(self):
-        return TOTAL_BALLS - self.get_first_round().normal_ball_count()
+        return self.ball_per_over * self.overs - self.get_first_round().normal_ball_count()
 
     def remaining_balls_second(self):
-        return TOTAL_BALLS - self.get_second_round().normal_ball_count()
+        return self.ball_per_over * self.overs - self.get_second_round().normal_ball_count()
 
     def required_run_rate(self):
         if self.remaining_balls_second():
-            return round(self.remaining_score() / self.remaining_balls_second() * BALLS_PER_OVER, 2)
+            return round(self.remaining_score() / self.remaining_balls_second() * self.ball_per_over, 2)
         return 0.00
 
     def team_1(self):
@@ -123,11 +123,12 @@ class Round(models.Model):
 
     def run_rate(self):
         if self.normal_ball_count():
-            return round(self.total_runs() / self.normal_ball_count() * BALLS_PER_OVER, 2)
+            return round(self.total_runs() / self.normal_ball_count() * self.match.ball_per_over, 2)
         return 0.00
 
     def overs_for_card(self):
-        return f'{self.normal_ball_count() // BALLS_PER_OVER}.{self.normal_ball_count() % BALLS_PER_OVER}'
+        return f'{self.normal_ball_count() // self.match.ball_per_over}.' \
+            + f'{self.normal_ball_count() % self.match.ball_per_over}'
 
     def balling_data(self):
         ballers = self.balling.player_set.all()
@@ -148,8 +149,8 @@ class Round(models.Model):
             runs = 0
             for over in overs:
                 ball_count += over.ball_set.filter(batsman=batsman).count()
-                runs += sum([int(i.score) for i in over.ball_set.filter(batsman=batsman, ball='-').all()] + \
-                            [int(i.score) for i in over.ball_set.filter(batsman=batsman, ball='b').all()])
+                runs += sum([int(i.score) for i in over.ball_set.filter(batsman=batsman, ball='-').all()] \
+                            + [int(i.score) for i in over.ball_set.filter(batsman=batsman, ball='b').all()])
             if ball_count:
                 data.append([batsman.name, runs, ball_count])
         return data

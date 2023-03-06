@@ -9,7 +9,7 @@ from .models import Match
 class MatchCreateView(LoginRequiredMixin, CreateView):
     model = Match
     template_name = 'match/create.html'
-    fields = ['name', 'toss_win', 'elected', 'first_batting', 'first_balling']
+    fields = ['name', 'toss_win', 'elected', 'first_batting', 'first_balling', 'overs', 'ball_per_over']
 
 
 class MatchListView(LoginRequiredMixin, ListView):
@@ -44,4 +44,5 @@ class MatchDeleteView(LoginRequiredMixin, DeleteView):
 class MatchUpdateView(LoginRequiredMixin, UpdateView):
     model = Match
     template_name = "match/update.html"
-    fields = ['name', 'toss_win', 'elected', 'first_batting', 'first_balling', 'won']
+    fields = ['name', 'toss_win', 'elected', 'first_batting', 'first_balling', 'won', 'overs', 'ball_per_over',
+              'custom_comment']

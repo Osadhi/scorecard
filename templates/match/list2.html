@@ -9,10 +9,10 @@
         <span class="text-muted fw-light">All </span>Matches
     </h4>
 
-    <div class="row">
+    <div class="row mx-3">
         {% for obj in object_list %}
             {% if forloop.counter|divisibleby:2 %}
-                <div class="col-md">
+                <div class="col-lg">
 
                     <a href="{% url 'match:scoreboard' obj.slug %}" class="text-decoration-none text-black">
                         <div class="card mb-3">
@@ -31,7 +31,7 @@
                                     </div>
                                 </div>
                                 <div class="col-auto">
-                                    <img class="card-img card-img-left" src="{{ obj.first_balling.logo.url }}"
+                                    <img class="card-img card-img-right" src="{{ obj.first_balling.logo.url }}"
                                          alt="{{ object.first_balling.name }}"
                                          style="max-width:150px;max-height:150px;">
                                 </div>
@@ -45,7 +45,7 @@
                     <div class="row">
                 {% endif %}
             {% else %}
-                <div class="col-md">
+                <div class="col-lg">
 
                     <a href="{% url 'match:scoreboard' obj.slug %}" class="text-decoration-none text-black">
                         <div class="card mb-3">
@@ -64,7 +64,7 @@
                                     </div>
                                 </div>
                                 <div class="col-auto">
-                                    <img class="card-img card-img-left" src="{{ obj.first_balling.logo.url }}"
+                                    <img class="card-img card-img-right" src="{{ obj.first_balling.logo.url }}"
                                          alt="{{ object.first_balling.name }}"
                                          style="max-width:150px;max-height:150px;">
                                 </div>
