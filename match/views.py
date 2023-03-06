@@ -15,6 +15,7 @@ class MatchCreateView(LoginRequiredMixin, CreateView):
 class MatchListView(LoginRequiredMixin, ListView):
     model = Match
     template_name = "match/list.html"
+    ordering = 'modified'
 
 
 class MatchDetailView(LoginRequiredMixin, DetailView):

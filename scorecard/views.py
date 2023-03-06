@@ -17,3 +17,4 @@ def index(request):
 class MatchListView(ListView):
     model = Match
     template_name = "match/list2.html"
+    ordering = 'modified'

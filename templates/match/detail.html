@@ -21,20 +21,20 @@
             <div class="nav-align-top mb-4">
                 <ul class="nav nav-tabs nav-fill" role="tablist">
                     <li class="nav-item">
-                        <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab"
+                        <button type="button" class="nav-link {% if not object.team_2.overs %} active {% endif %}" role="tab" data-bs-toggle="tab"
                                 data-bs-target="#navs-justified-r1" aria-controls="navs-justified-r1"
-                                aria-selected="true">{{ object.get_first_round }}
+                                aria-selected="{% if not object.team_2.overs %}true{% else %} false {% endif %}">{{ object.get_first_round }}
                         </button>
                     </li>
                     <li class="nav-item">
-                        <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
+                        <button type="button" class="nav-link {% if object.team_2.overs %} active {% endif %}" role="tab" data-bs-toggle="tab"
                                 data-bs-target="#navs-justified-r2" aria-controls="navs-justified-r2"
-                                aria-selected="false">{{ object.get_second_round }}
+                                aria-selected="{% if object.team_2.overs %}true{% else %} false {% endif %}">{{ object.get_second_round }}
                         </button>
                     </li>
                 </ul>
                 <div class="tab-content">
-                    <div class="tab-pane fade active show" id="navs-justified-r1" role="tabpanel">
+                    <div class="tab-pane fade {% if not object.team_2.overs %}active show{% endif %}" id="navs-justified-r1" role="tabpanel">
 
                         {% if object.remaining_balls_first or object.get_first_round.wicket_count >= 10 %}
 
@@ -51,6 +51,8 @@
                             </form>
 
                             <hr/>
+
+                            <p>Current Bowler: {{ object.get_first_round.current_over.baller.name }}</p>
 
                             <form action="{% url 'over:b_create' %}" method="POST">{% csrf_token %}
                                 <div class="row justify-content-start">
@@ -134,7 +136,7 @@
 
 
                     </div>
-                    <div class="tab-pane fade" id="navs-justified-r2" role="tabpanel">
+                    <div class="tab-pane fade {% if object.team_2.overs %}active show{% endif %}" id="navs-justified-r2" role="tabpanel">
 
                         {% if object.remaining_balls_second or object.get_second_round.wicket_count >= 10 or not object.remaining_score %}
 
@@ -151,6 +153,8 @@
                             </form>
 
                             <hr/>
+
+                            <p>Current Bowler: {{ object.get_second_round.current_over.baller.name }}</p>
 
                             <form action="{% url 'over:b_create' %}" method="POST">{% csrf_token %}
                                 <div class="row justify-content-start">
