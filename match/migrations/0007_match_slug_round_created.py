@@ -13,12 +13,14 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='match',
             name='slug',
-            field=models.SlugField(editable=False, null=True, unique=True, verbose_name='slug'),
+            field=models.SlugField(
+                editable=False, null=True, unique=True, verbose_name='slug'),
         ),
         migrations.AddField(
             model_name='round',
             name='created',
-            field=models.DateTimeField(auto_now_add=True, default=django.utils.timezone.now, verbose_name='created'),
+            field=models.DateTimeField(
+                auto_now_add=True, default=django.utils.timezone.now, verbose_name='created'),
             preserve_default=False,
         ),
     ]

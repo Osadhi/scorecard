@@ -15,16 +15,24 @@ class Match(models.Model):
 
     name = models.CharField(max_length=256, default='')
     slug = models.SlugField(_('slug'), unique=True, blank=True, editable=False)
-    created = models.DateTimeField(_('created'), blank=True, editable=False, auto_now_add=True)
-    modified = models.DateTimeField(_('modified'), blank=True, editable=False, auto_now=True)
-    first_batting = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='first_batting_set', blank=True)
-    first_balling = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='first_balling_set', blank=True)
-    toss_win = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='toss_win_set')
-    elected = models.CharField(_('elected'), choices=Choose.choices, default=Choose.FIELD, max_length=1)
-    won = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='won_set', blank=True, null=True)
+    created = models.DateTimeField(
+        _('created'), blank=True, editable=False, auto_now_add=True)
+    modified = models.DateTimeField(
+        _('modified'), blank=True, editable=False, auto_now=True)
+    first_batting = models.ForeignKey(
+        Team, on_delete=models.CASCADE, related_name='first_batting_set', blank=True)
+    first_balling = models.ForeignKey(
+        Team, on_delete=models.CASCADE, related_name='first_balling_set', blank=True)
+    toss_win = models.ForeignKey(
+        Team, on_delete=models.CASCADE, related_name='toss_win_set')
+    elected = models.CharField(
+        _('elected'), choices=Choose.choices, default=Choose.FIELD, max_length=1)
+    won = models.ForeignKey(Team, on_delete=models.CASCADE,
+                            related_name='won_set', blank=True, null=True)
     overs = models.IntegerField(_('overs'), default=5)
     ball_per_over = models.IntegerField(_('balls per over'), default=4)
-    custom_comment = models.TextField(_('custom comment'), blank=True, default='')
+    custom_comment = models.TextField(
+        _('custom comment'), blank=True, default='')
 
     def __str__(self):
         return self.name
@@ -82,10 +90,14 @@ class Match(models.Model):
 class Round(models.Model):
     name = models.CharField(max_length=256, default='')
     match = models.ForeignKey(Match, on_delete=models.CASCADE)
-    batting = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='batting_set')
-    balling = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='balling_set')
-    created = models.DateTimeField(_('created'), blank=True, editable=False, auto_now_add=True)
-    modified = models.DateTimeField(_('modified'), blank=True, editable=False, auto_now=True)
+    batting = models.ForeignKey(
+        Team, on_delete=models.CASCADE, related_name='batting_set')
+    balling = models.ForeignKey(
+        Team, on_delete=models.CASCADE, related_name='balling_set')
+    created = models.DateTimeField(
+        _('created'), blank=True, editable=False, auto_now_add=True)
+    modified = models.DateTimeField(
+        _('modified'), blank=True, editable=False, auto_now=True)
 
     def __str__(self):
         return self.name
@@ -149,7 +161,7 @@ class Round(models.Model):
             runs = 0
             for over in overs:
                 ball_count += over.ball_set.filter(batsman=batsman).count()
-                runs += sum([int(i.score) for i in over.ball_set.filter(batsman=batsman, ball='-').all()] \
+                runs += sum([int(i.score) for i in over.ball_set.filter(batsman=batsman, ball='-').all()]
                             + [int(i.score) for i in over.ball_set.filter(batsman=batsman, ball='b').all()])
             if ball_count:
                 data.append([batsman.name, runs, ball_count])

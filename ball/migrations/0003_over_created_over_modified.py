@@ -13,7 +13,8 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='over',
             name='created',
-            field=models.DateTimeField(auto_now_add=True, default=django.utils.timezone.now, verbose_name='created'),
+            field=models.DateTimeField(
+                auto_now_add=True, default=django.utils.timezone.now, verbose_name='created'),
             preserve_default=False,
         ),
         migrations.AddField(

@@ -16,23 +16,29 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Over',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('baller', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='team.player')),
-                ('round', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='match.round')),
+                ('id', models.BigAutoField(auto_created=True,
+                 primary_key=True, serialize=False, verbose_name='ID')),
+                ('baller', models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE, to='team.player')),
+                ('round', models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE, to='match.round')),
             ],
         ),
         migrations.CreateModel(
             name='Ball',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.BigAutoField(auto_created=True,
+                 primary_key=True, serialize=False, verbose_name='ID')),
                 ('wicket', models.BooleanField(default=False)),
                 ('score',
                  models.CharField(choices=[('-', 'None'), ('1', '1'), ('2', '2'), ('3', '3'), ('4', '4'), ('6', '6')],
                                   default='-', max_length=1, verbose_name='score')),
                 ('ball', models.CharField(choices=[('-', 'Normal'), ('WB', 'Wide'), ('NB', 'No Ball'), ('B', 'Byes')],
                                           default='-', max_length=2, verbose_name='ball type')),
-                ('batsman', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='team.player')),
-                ('over', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='ball.over')),
+                ('batsman', models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE, to='team.player')),
+                ('over', models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE, to='ball.over')),
             ],
         ),
     ]
