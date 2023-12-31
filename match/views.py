@@ -9,7 +9,8 @@ from .models import Match
 class MatchCreateView(LoginRequiredMixin, CreateView):
     model = Match
     template_name = 'match/create.html'
-    fields = ['name', 'toss_win', 'elected', 'first_batting', 'first_balling', 'overs', 'ball_per_over']
+    fields = ['name', 'toss_win', 'elected', 'first_batting',
+              'first_balling', 'overs', 'ball_per_over']
 
 
 class MatchListView(LoginRequiredMixin, ListView):

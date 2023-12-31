@@ -13,7 +13,8 @@ class OverCreateForm(ModelForm):
     def __init__(self, *args, **kwargs):
         team = kwargs.pop('team')
         super().__init__(*args, **kwargs)
-        self.fields['baller'] = forms.ModelChoiceField(queryset=Player.objects.filter(team=team))
+        self.fields['baller'] = forms.ModelChoiceField(
+            queryset=Player.objects.filter(team=team))
 
 
 class BallCreateForm(ModelForm):
@@ -24,5 +25,6 @@ class BallCreateForm(ModelForm):
     def __init__(self, *args, **kwargs):
         team = kwargs.pop('team')
         super().__init__(*args, **kwargs)
-        self.fields['batsman'] = forms.ModelChoiceField(queryset=Player.objects.filter(team=team))
+        self.fields['batsman'] = forms.ModelChoiceField(
+            queryset=Player.objects.filter(team=team))
         self.fields['wicket'] = forms.BooleanField(required=False)

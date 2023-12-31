@@ -13,8 +13,10 @@ from team.models import Player
 class Over(models.Model):
     round = models.ForeignKey(Round, on_delete=models.CASCADE)
     baller = models.ForeignKey(Player, on_delete=models.CASCADE)
-    created = models.DateTimeField(_('created'), blank=True, editable=False, auto_now_add=True)
-    modified = models.DateTimeField(_('modified'), blank=True, editable=False, auto_now=True)
+    created = models.DateTimeField(
+        _('created'), blank=True, editable=False, auto_now_add=True)
+    modified = models.DateTimeField(
+        _('modified'), blank=True, editable=False, auto_now=True)
 
     def __str__(self):
         return str(self.id)
@@ -61,8 +63,10 @@ class Ball(models.Model):
     over = models.ForeignKey(Over, on_delete=models.CASCADE)
     batsman = models.ForeignKey(Player, on_delete=models.CASCADE)
     wicket = models.BooleanField(default=False)
-    score = models.CharField(_('score'), choices=Score.choices, default=Score.NONE, max_length=1)
-    ball = models.CharField(_('ball type'), choices=Ball.choices, default=Ball.NORMAL, max_length=2)
+    score = models.CharField(
+        _('score'), choices=Score.choices, default=Score.NONE, max_length=1)
+    ball = models.CharField(
+        _('ball type'), choices=Ball.choices, default=Ball.NORMAL, max_length=2)
 
     def __str__(self):
         return str(self.id)
@@ -86,14 +90,16 @@ def update_data(sender, instance, *args, **kwargs):
                          'extras': round_.extras()}
 
     if round_ == match.get_first_round():
-        defaults_for_team.update({'remaining_balls': match.remaining_balls_first()})
+        defaults_for_team.update(
+            {'remaining_balls': match.remaining_balls_first()})
 
     elif round_ == match.get_second_round():
         defaults_for_team.update({'remaining_balls': match.remaining_balls_second(),
                                   'required_run_rate': match.required_run_rate(),
                                   'remaining_score': match.remaining_score()})
 
-    TeamStat.objects.update_or_create(match=match, team=team, defaults=defaults_for_team)
+    TeamStat.objects.update_or_create(
+        match=match, team=team, defaults=defaults_for_team)
 
     overs_baller = Over.objects.filter(round=round_, baller=baller)
 
@@ -101,7 +107,8 @@ def update_data(sender, instance, *args, **kwargs):
                                    'wickets': sum([i.wicket_count() for i in overs_baller.all()]),
                                    'runs': sum([i.total_runs() for i in overs_baller.all()])}
 
-    PlayerBallStat.objects.update_or_create(match=match, player=baller, defaults=defaults_for_balling_player)
+    PlayerBallStat.objects.update_or_create(
+        match=match, player=baller, defaults=defaults_for_balling_player)
 
     overs_batsman = round_.over_set.all()
 
@@ -109,10 +116,11 @@ def update_data(sender, instance, *args, **kwargs):
     runs = 0
     for over in overs_batsman:
         ball_count += over.ball_set.filter(batsman=batsman).count()
-        runs += sum([int(i.score) for i in over.ball_set.filter(batsman=batsman, ball='-').all()] + \
+        runs += sum([int(i.score) for i in over.ball_set.filter(batsman=batsman, ball='-').all()] +
                     [int(i.score) for i in over.ball_set.filter(batsman=batsman, ball='b').all()])
 
     defaults_for_batting_player = {'balls': ball_count,
                                    'runs': runs}
 
-    PlayerBatStat.objects.update_or_create(match=match, player=batsman, defaults=defaults_for_batting_player)
+    PlayerBatStat.objects.update_or_create(
+        match=match, player=batsman, defaults=defaults_for_batting_player)

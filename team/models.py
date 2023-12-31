@@ -10,8 +10,10 @@ from scorecard.utils import unique_slug_gen
 class Team(models.Model):
     name = models.CharField(max_length=256, default='', blank=True)
     slug = models.SlugField(_('slug'), unique=True, blank=True, editable=False)
-    created = models.DateTimeField(_('created'), blank=True, editable=False, auto_now_add=True)
-    modified = models.DateTimeField(_('modified'), blank=True, editable=False, auto_now=True)
+    created = models.DateTimeField(
+        _('created'), blank=True, editable=False, auto_now_add=True)
+    modified = models.DateTimeField(
+        _('modified'), blank=True, editable=False, auto_now=True)
     logo = models.ImageField(upload_to='team', blank=True, null=True)
 
     def __str__(self):
@@ -25,8 +27,10 @@ class Player(models.Model):
     name = models.CharField(max_length=256, default='', blank=True)
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
     slug = models.SlugField(_('slug'), unique=True, blank=True, editable=False)
-    created = models.DateTimeField(_('created'), blank=True, editable=False, auto_now_add=True)
-    modified = models.DateTimeField(_('modified'), blank=True, editable=False, auto_now=True)
+    created = models.DateTimeField(
+        _('created'), blank=True, editable=False, auto_now_add=True)
+    modified = models.DateTimeField(
+        _('modified'), blank=True, editable=False, auto_now=True)
 
     def __str__(self):
         return self.name

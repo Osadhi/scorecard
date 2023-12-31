@@ -12,6 +12,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='playerballstat',
             name='overs',
-            field=models.FloatField(blank=True, null=True, verbose_name='overs'),
+            field=models.FloatField(
+                blank=True, null=True, verbose_name='overs'),
         ),
     ]

@@ -13,7 +13,8 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='player',
             name='created',
-            field=models.DateTimeField(auto_now_add=True, default=django.utils.timezone.now, verbose_name='created'),
+            field=models.DateTimeField(
+                auto_now_add=True, default=django.utils.timezone.now, verbose_name='created'),
             preserve_default=False,
         ),
         migrations.AddField(
@@ -24,12 +25,14 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='player',
             name='slug',
-            field=models.SlugField(editable=False, null=True, unique=True, verbose_name='slug'),
+            field=models.SlugField(
+                editable=False, null=True, unique=True, verbose_name='slug'),
         ),
         migrations.AddField(
             model_name='team',
             name='created',
-            field=models.DateTimeField(auto_now_add=True, default=django.utils.timezone.now, verbose_name='created'),
+            field=models.DateTimeField(
+                auto_now_add=True, default=django.utils.timezone.now, verbose_name='created'),
             preserve_default=False,
         ),
         migrations.AddField(
@@ -40,6 +43,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='team',
             name='slug',
-            field=models.SlugField(editable=False, null=True, unique=True, verbose_name='slug'),
+            field=models.SlugField(
+                editable=False, null=True, unique=True, verbose_name='slug'),
         ),
     ]

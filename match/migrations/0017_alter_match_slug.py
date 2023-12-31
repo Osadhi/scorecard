@@ -12,6 +12,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='match',
             name='slug',
-            field=models.SlugField(blank=True, editable=False, unique=True, verbose_name='slug'),
+            field=models.SlugField(
+                blank=True, editable=False, unique=True, verbose_name='slug'),
         ),
     ]
