@@ -13,7 +13,7 @@ class Match(models.Model):
         BAT = 'B', _('Bat')
         FIELD = 'F', _('Field')
 
-    name = models.CharField(max_length=256, null=True)
+    name = models.CharField(max_length=256, default='')
     slug = models.SlugField(_('slug'), unique=True, blank=True, editable=False)
     created = models.DateTimeField(_('created'), blank=True, editable=False, auto_now_add=True)
     modified = models.DateTimeField(_('modified'), blank=True, editable=False, auto_now=True)
@@ -24,7 +24,7 @@ class Match(models.Model):
     won = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='won_set', blank=True, null=True)
     overs = models.IntegerField(_('overs'), default=5)
     ball_per_over = models.IntegerField(_('balls per over'), default=4)
-    custom_comment = models.TextField(_('custom comment'), blank=True, null=True)
+    custom_comment = models.TextField(_('custom comment'), blank=True, default='')
 
     def __str__(self):
         return self.name
@@ -80,7 +80,7 @@ class Match(models.Model):
 
 
 class Round(models.Model):
-    name = models.CharField(max_length=256, null=True)
+    name = models.CharField(max_length=256, default='')
     match = models.ForeignKey(Match, on_delete=models.CASCADE)
     batting = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='batting_set')
     balling = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='balling_set')

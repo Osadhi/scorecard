@@ -12,7 +12,7 @@ class TeamStat(models.Model):
     match = models.ForeignKey(Match, on_delete=models.CASCADE)
     total = models.IntegerField(_('total'), null=True, blank=True)
     wickets = models.IntegerField(_('wickets'), null=True, blank=True)
-    overs = models.CharField(max_length=10, null=True, blank=True)
+    overs = models.CharField(max_length=10, default='', blank=True)
     run_rate = models.FloatField(_('run rate'), null=True, blank=True)
     required_run_rate = models.FloatField(_('required run rate'), null=True, blank=True)
     extras = models.IntegerField(_('extras'), null=True, blank=True)
